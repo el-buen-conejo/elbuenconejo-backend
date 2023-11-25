@@ -1,0 +1,5 @@
+id,is_producer,first_name,last_name,photo,qualification,is_active,created,updated,address_id_id,user_id_id
+9ca029a0-adfc-4bae-b392-2f3f1739bcf8,t,Elon Petronilo,Starlink Gutiérrez,http:/aws/bucket/rabbit_001,1.50,t,2023-10-25 11:43:08.824531-06,2023-10-25 11:46:02.907892-06,f306c6b9-f5ee-4f1c-b56a-d4aff25fcbe6,dc3035e5-6dde-4988-aff4-f320043c25e7
+603d9f6d-de98-46b8-85ec-9c89e36380d2,t,Josefina Dinamara,De las colinas Ponce,http:/aws/bucket/s3/rabbit_002,3.20,t,2023-10-25 11:47:48.444621-06,2023-10-25 11:47:48.444642-06,bdf5a35a-887f-4a11-8025-8f7acc5f5cfc,535f7fa5-7f03-49d0-8ed6-e8fc3a6a5ca8
+43764ec2-67c3-477e-b5ed-fc50ff667491,f,Apolonio Francisco,Porres del Ánimo,http://aws/bucket/rabbit_003,2.80,t,2023-10-25 11:49:22.91016-06,2023-10-25 11:49:22.910181-06,f2ae990f-257f-4aca-aace-1528422c9c8f,671cb3e9-221a-4917-93e0-02d0562c3cf6
+0d0a8af9-3a7e-4557-a79a-4ff495915217,t,René Eustaquio,Silva Carrillo,http://aws/bucket/rabbit_004,4.80,t,2023-10-25 11:52:24.606938-06,2023-10-25 11:52:24.606964-06,07cc4db9-b255-4392-a12e-a2fbb14d96e5,304c5033-35d1-4ae7-8c4e-5f430471720b

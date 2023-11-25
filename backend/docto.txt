@@ -1,0 +1,9 @@
+Django Websockets
+
+https://dev.to/circumeo/django-websockets-3db4
+
+
+https://django-good-rabbit.s3.amazonaws.com/fotos/conejos/conejo.jpg
+https://django-good-rabbit.s3.amazonaws.com/fotos/granjas/granja.jpg
+https://django-good-rabbit.s3.amazonaws.com/fotos/jaulas/jaula.jpg
+https://django-good-rabbit.s3.amazonaws.com/fotos/perfiles/perfil.jpg

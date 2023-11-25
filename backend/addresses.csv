@@ -1,0 +1,5 @@
+id,created,updated,is_active,address,city_id_id,state_id_id
+f306c6b9-f5ee-4f1c-b56a-d4aff25fcbe6,2023-10-25 11:03:48.244942-06,2023-10-25 11:03:48.24497-06,t,"Paseo de los abedules no. 18, Fracc. Real Hacienda",0eb4d713-7eb2-4cd6-af98-0ef934000210,90f0be6c-367f-4f9e-a925-7785483a6998
+bdf5a35a-887f-4a11-8025-8f7acc5f5cfc,2023-10-25 11:04:15.332014-06,2023-10-25 11:04:15.332088-06,t,"Laguna de Pastores No. 217, Col. Solidaridad",0eb4d713-7eb2-4cd6-af98-0ef934000210,90f0be6c-367f-4f9e-a925-7785483a6998
+f2ae990f-257f-4aca-aace-1528422c9c8f,2023-10-25 11:04:41.397636-06,2023-10-25 11:04:41.397664-06,t,"Guanajuato no. 27, Col. Del Valle",0eb4d713-7eb2-4cd6-af98-0ef934000210,90f0be6c-367f-4f9e-a925-7785483a6998
+07cc4db9-b255-4392-a12e-a2fbb14d96e5,2023-10-25 11:05:35.865956-06,2023-10-25 11:05:35.865975-06,t,"Los carpatos de mi tierra, Col. Real de Minas",0eb4d713-7eb2-4cd6-af98-0ef934000210,90f0be6c-367f-4f9e-a925-7785483a6998

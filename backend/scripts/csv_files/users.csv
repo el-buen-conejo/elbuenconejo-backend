@@ -1,0 +1,5 @@
+password,last_login,is_superuser,id,username,email,is_staff,is_active
+pbkdf2_sha256$600000$pbnWc5RfkBPyJvggeaRa6h$3bPxb+DPYb6BMvTbp+hTX0kL2EnHkpdHJ9dwPqrDTK0=,2023-10-15 13:13:51.733858-06,t,304c5033-35d1-4ae7-8c4e-5f430471720b,farmii,farmii@gmail.com,t,t
+pbkdf2_sha256$600000$wXGWcWXCauWVsgOxoRtzHF$2z2bjs03vzreUHE6rQhHE9VWVVwabj2dmazeKx4VTs0=,2023-10-15 13:14:51.733856-06,f,671cb3e9-221a-4917-93e0-02d0562c3cf6,polo,polo@gmail.com,f,t
+pbkdf2_sha256$600000$Ub7wRBEpmhrZHeVxOfoQSg$EeAnVtp/cOjpPXI5re/NQFWFUoqqbRF3B9zFQuoKfBY=,2023-10-15 12:14:53.732856-06,f,dc3035e5-6dde-4988-aff4-f320043c25e7,Elon,elon@gmail.com,f,t
+pbkdf2_sha256$600000$uDXd04eDSahVVflZBAbGvq$FwSM3u6BcjGMcPY/6rJwzUyc9ulnLSK6mn13+mA057g=,2023-10-15 11:17:10.733856-06,f,535f7fa5-7f03-49d0-8ed6-e8fc3a6a5ca8,Josefina,josefina@gmail.com,f,t
