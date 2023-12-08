@@ -3,6 +3,7 @@ import uuid
 from apps.users.models import User
 from apps.addresses.models import Address
 import os
+from apps.abstracts.models import AbstractModel
 
 
 def get_upload_path(instance, filename):
@@ -16,7 +17,7 @@ def get_upload_path(instance, filename):
 
 
 # Create your models here.
-class Profile(models.Model):
+class Profile(AbstractModel):
     """
      The Profile is extended user date.
 
@@ -27,7 +28,6 @@ class Profile(models.Model):
         is_active ( boolean ): logic delete.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     is_producer = models.BooleanField(default=False)
     first_name = models.CharField(max_length=50, null=True, blank=True)
@@ -36,9 +36,6 @@ class Profile(models.Model):
         Address, on_delete=models.CASCADE, blank=True, null=True
     )
     qualification = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    is_active = models.BooleanField(default=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     photo = models.ImageField(
         "Profiles",
         upload_to=get_upload_path,
@@ -46,6 +43,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
+    saw_tutorial = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Perfil"

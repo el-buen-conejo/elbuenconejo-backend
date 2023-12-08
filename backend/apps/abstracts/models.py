@@ -26,7 +26,7 @@ class AbstractModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    objects = AbstractManager()
+    objects_by_id = AbstractManager()
     active_objects = AbstractSoftDeleteManager()
 
     def soft_delete(self):
