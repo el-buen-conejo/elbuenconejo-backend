@@ -116,6 +116,15 @@ TEMPLATES = [
     },
 ]
 
+# Authenication backends
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+
 WSGI_APPLICATION = "rabbits_farm.wsgi.application"
 
 
@@ -195,6 +204,26 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        "APP": {"client_id": "123", "secret": "456", "key": ""}
+    }
+}
+
+# The user is required to hand over an e-mail address when signing up.
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Determines the e-mail verification method during signup. When set to
+# "mandatory" the user is blocked from logging in until the email
+# address is verified. Choose "optional" or "none" to allow logins
+# with an unverified e-mail address. In case of "optional", the e-mail
+# verification mail is still sent, whereas in case of "none" no e-mail
+# verification mails are sent.
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -221,3 +250,12 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
+# Correo electrónico
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env("SMTP_SERVER")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env("EMAIL_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
