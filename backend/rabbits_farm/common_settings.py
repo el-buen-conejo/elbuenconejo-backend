@@ -90,6 +90,10 @@ THIRD_APPS = [
     "corsheaders",
     "storages",
     "whitenoise.runserver_nostatic",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS

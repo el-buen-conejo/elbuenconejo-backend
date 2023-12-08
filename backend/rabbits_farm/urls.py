@@ -46,6 +46,8 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    path("accounts/", include("allauth.urls")),
+    path("api/auth/", include("allauth.socialaccount.providers.oauth2.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
