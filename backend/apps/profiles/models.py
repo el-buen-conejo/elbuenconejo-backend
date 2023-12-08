@@ -1,5 +1,4 @@
 from django.db import models
-import uuid
 from apps.users.models import User
 from apps.addresses.models import Address
 import os

@@ -109,7 +109,6 @@ class UserViewSet(viewsets.GenericViewSet):
         """
 
         data = request.data
-        is_producer = data.get("is_producer", False)
         user_data = {
             "username": data.get("username"),
             "email": data.get("email"),
@@ -118,9 +117,7 @@ class UserViewSet(viewsets.GenericViewSet):
 
         user_serializer = self.serializer_class(data=user_data)
         if user_serializer.is_valid():
-            user = user_serializer.save()
-            # Create the profile
-            Profile.objects.create(user_id=user, is_producer=is_producer)
+            user_serializer.save()
             return Response(
                 {"message": "El usuario se creo correctamente!"},
                 status=status.HTTP_201_CREATED,
