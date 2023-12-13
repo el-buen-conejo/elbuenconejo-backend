@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class AuthenticationConfig(AppConfig):
-    name = "apss.authentication"
+    name = "apps.authentication"

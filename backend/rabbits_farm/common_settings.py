@@ -65,6 +65,7 @@ BASE_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
 ]
 
 # Local applications
@@ -83,8 +84,9 @@ LOCAL_APPS = [
 # Third persons applications
 THIRD_APPS = [
     "rest_framework",
-    "rest_framework_simplejwt",
-    "rest_framework_simplejwt.token_blacklist",
+    "rest_framework.authtoken",
+    # "rest_framework_simplejwt",
+    # "rest_framework_simplejwt.token_blacklist",
     "django_filters",
     "drf_spectacular",
     "django_extensions",
@@ -94,12 +96,16 @@ THIRD_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
+    # "allauth.socialaccount.providers.google",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 ROOT_URLCONF = "rabbits_farm.urls"
+
+SITE_ID = 1  # make sure SITE_ID is set
 
 TEMPLATES = [
     {
@@ -118,12 +124,12 @@ TEMPLATES = [
 ]
 
 # Authenication backends
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    "django.contrib.auth.backends.ModelBackend",
-    # `allauth` specific authentication methods, such as login by email
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     "django.contrib.auth.backends.ModelBackend",
+#     # `allauth` specific authentication methods, such as login by email
+#     "allauth.account.auth_backends.AuthenticationBackend",
+# ]
 
 
 WSGI_APPLICATION = "rabbits_farm.wsgi.application"
@@ -171,18 +177,19 @@ USE_TZ = True
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        # "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
-}
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#     "ROTATE_REFRESH_TOKENS": True,
+#     "BLACKLIST_AFTER_ROTATION": True,
+# }
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "El Buen Conejo API",
@@ -202,18 +209,17 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 # Provider specific settings
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        "APP": {"client_id": "123", "secret": "456", "key": ""}
-    }
-}
+# SOCIALACCOUNT_PROVIDERS = {
+#     "google": {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         "APP": {"client_id": "123", "secret": "456", "key": ""}
+#     }
+# }
 
 # The user is required to hand over an e-mail address when signing up.
 ACCOUNT_EMAIL_REQUIRED = True
@@ -225,6 +231,14 @@ ACCOUNT_EMAIL_REQUIRED = True
 # verification mail is still sent, whereas in case of "none" no e-mail
 # verification mails are sent.
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+# <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
+EMAIL_CONFIRM_REDIRECT_BASE_URL = "http://localhost:3000/email/confirm/"
+
+# <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = (
+    "http://localhost:3000/password-reset/confirm/"
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -252,11 +266,12 @@ STORAGES = {
     },
 }
 
-# Correo electrónico
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env("SMTP_SERVER")
-EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env("EMAIL_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
-DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
+# # Correo electrónico
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = env("SMTP_SERVER")
+# EMAIL_PORT = env("EMAIL_PORT")
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = env("EMAIL_USER")
+# EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+# DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
