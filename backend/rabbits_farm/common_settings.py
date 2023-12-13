@@ -77,6 +77,7 @@ LOCAL_APPS = [
     "apps.markets",
     "apps.catalogs",
     "apps.addresses",
+    "apps.authentication",
 ]
 
 # Third persons applications
