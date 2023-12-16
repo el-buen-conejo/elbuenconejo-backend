@@ -15,7 +15,7 @@ from datetime import timedelta
 import environ
 import os
 
-from utils.get_parameters_store.parameter_store import get_parameter
+# from utils.get_parameters_store.parameter_store import get_parameter
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,11 +42,11 @@ SECRET_KEY = env("SECRET_KEY")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env("POSTGRES_NAME"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
-        "PORT": env("POSTGRES_PORT"),
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 
@@ -85,7 +85,7 @@ LOCAL_APPS = [
 THIRD_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
-    # "rest_framework_simplejwt",
+    "rest_framework_simplejwt",
     # "rest_framework_simplejwt.token_blacklist",
     "django_filters",
     "drf_spectacular",
@@ -175,21 +175,35 @@ USE_TZ = True
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
-        # "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
+        # "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-# SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-#     "ROTATE_REFRESH_TOKENS": True,
-#     "BLACKLIST_AFTER_ROTATION": True,
-# }
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": True,
+    "SIGNING_KEY": "complexsigningkey",  # generate a key and replace me
+    "ALGORITHM": "HS512",
+}
+
+REST_AUTH = {
+    # "SESSION_LOGIN": True,
+    "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,
+    # "JWT_AUTH_COOKIE": "auth",
+    # "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
+}
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "El Buen Conejo API",
@@ -221,6 +235,7 @@ MIDDLEWARE = [
 #     }
 # }
 
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 # The user is required to hand over an e-mail address when signing up.
 ACCOUNT_EMAIL_REQUIRED = True
 
@@ -275,3 +290,11 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # EMAIL_HOST_USER = env("EMAIL_USER")
 # EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 # DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
+
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000/",
+        "http://127.0.0.1:3000/",
+    ]
