@@ -17,6 +17,12 @@ from apps.profiles.models import Profile
 from .permisssions import CreateUserPermission
 from django.contrib.auth.hashers import make_password
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from allauth.account.models import EmailAddress
+from allauth.account.utils import send_email_confirmation
+from allauth.account.models import EmailConfirmation
+from allauth.account.models import EmailConfirmationHMAC
+from datetime import datetime, timezone
+from django.db import transaction
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -89,7 +95,7 @@ class UserViewSet(viewsets.GenericViewSet):
         return Response(serializer.data)
 
     @extend_schema(
-        description="Crea un usuario con perfil vacío",
+        description="Crea un usuario con perfil vacío y envía correo de validación",
         summary="Users",
         examples=[
             OpenApiExample(
@@ -98,33 +104,39 @@ class UserViewSet(viewsets.GenericViewSet):
                     "username": "string",
                     "email": "user@example",
                     "password": "string",
-                    "is_producer": "True",
                 },
             )
         ],
     )
     def create(self, request):
         """
-        Create an user
+        Create an user and send email confirmation
         """
 
         data = request.data
-        is_producer = data.get("is_producer", False)
         user_data = {
             "username": data.get("username"),
             "email": data.get("email"),
             "password": make_password(data.get("password")),
         }
+        with transaction.atomic():
+            user_serializer = self.serializer_class(data=user_data)
+            if user_serializer.is_valid():
+                user = user_serializer.save()
 
-        user_serializer = self.serializer_class(data=user_data)
-        if user_serializer.is_valid():
-            user = user_serializer.save()
-            # Create the profile
-            Profile.objects.create(user_id=user, is_producer=is_producer)
-            return Response(
-                {"message": "El usuario se creo correctamente!"},
-                status=status.HTTP_201_CREATED,
-            )
+                # Send email confirmation
+                email_address = EmailAddress.objects.create(user=user, email=user.email)
+                email_confirmation = EmailConfirmation.create(email_address)
+                email_confirmation.sent = datetime.now(timezone.utc)
+                email_confirmation.save()
+                send_email_confirmation(request, email_confirmation)
+
+                return Response(
+                    {
+                        "message": "El usuario se creo correctamente y se envió un correo de validación!"
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
         return Response(
             {
                 "message": "Hay errores en el registro!",
