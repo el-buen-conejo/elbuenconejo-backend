@@ -123,14 +123,6 @@ TEMPLATES = [
     },
 ]
 
-# Authenication backends
-# AUTHENTICATION_BACKENDS = [
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     "django.contrib.auth.backends.ModelBackend",
-#     # `allauth` specific authentication methods, such as login by email
-#     "allauth.account.auth_backends.AuthenticationBackend",
-# ]
-
 
 WSGI_APPLICATION = "rabbits_farm.wsgi.application"
 
@@ -179,9 +171,6 @@ USE_TZ = True
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
-        # "rest_framework.authentication.TokenAuthentication",
-        # "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
     # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
@@ -198,17 +187,14 @@ SIMPLE_JWT = {
 }
 
 REST_AUTH = {
-    # "SESSION_LOGIN": True,
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
-    # "JWT_AUTH_COOKIE": "auth",
-    # "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
 }
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "El Buen Conejo API",
     "DESCRIPTION": "API para la plataforma del Buen Conejo",
-    "VERSION": "1.0.0",
+    "VERSION": "2.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
     "COMPONENT_SPLIT_REQUEST": True,
     # OTHER SETTINGS
@@ -282,14 +268,14 @@ STORAGES = {
 }
 
 # # Correo electrónico
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = env("SMTP_SERVER")
-# EMAIL_PORT = env("EMAIL_PORT")
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = env("EMAIL_USER")
-# EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
-# DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env("SMTP_SERVER")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = env("EMAIL_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True

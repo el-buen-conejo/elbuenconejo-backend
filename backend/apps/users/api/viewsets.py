@@ -1,28 +1,18 @@
 from utils.filters import UserFilterSet
 from utils.pagination import ExtendedPagination
 from apps.users.api.serializers import (
-    PasswordSerializer,
     UserListSerializer,
     UserSerializer,
     UserUpdateSerializer,
-    ProfileSerializerFromUser,
 )
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework
 
 from rest_framework import filters, status, viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
-from apps.profiles.models import Profile
 from .permisssions import CreateUserPermission
-from django.contrib.auth.hashers import make_password
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from allauth.account.models import EmailAddress
-from allauth.account.utils import send_email_confirmation
-from allauth.account.models import EmailConfirmation
-from allauth.account.models import EmailConfirmationHMAC
-from datetime import datetime, timezone
-from django.db import transaction
+
+from drf_spectacular.utils import extend_schema
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -49,31 +39,6 @@ class UserViewSet(viewsets.GenericViewSet):
     def get_object(self, pk):
         return get_object_or_404(self.serializer_class.Meta.model, pk=pk)
 
-    @action(methods=["post"], detail=True)
-    @extend_schema(
-        description="Cambia la contraseña",
-        summary="Users",
-        request=PasswordSerializer,
-        responses=None,
-    )
-    def set_password(self, request, pk=None):
-        """
-        Change password
-        """
-        user = self.get_object(pk)
-        password_serializer = PasswordSerializer(data=request.data)
-        if password_serializer.is_valid():
-            user.set_password(password_serializer.validated_data["password"])
-            user.save()
-            return Response(
-                {"message": "La contraseña se actualizó correctamente!"},
-                status=status.HTTP_200_OK,
-            )
-        return Response(
-            {"message": "Ocurrieron errores!", "error": password_serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
     @extend_schema(
         description="Obtiene una colección de usuarios",
         summary="Users",
@@ -93,57 +58,6 @@ class UserViewSet(viewsets.GenericViewSet):
 
         serializer = self.list_serializer_class(queryset, many=True)
         return Response(serializer.data)
-
-    @extend_schema(
-        description="Crea un usuario con perfil vacío y envía correo de validación",
-        summary="Users",
-        examples=[
-            OpenApiExample(
-                "Example Schema",
-                {
-                    "username": "string",
-                    "email": "user@example",
-                    "password": "string",
-                },
-            )
-        ],
-    )
-    def create(self, request):
-        """
-        Create an user and send email confirmation
-        """
-
-        data = request.data
-        user_data = {
-            "username": data.get("username"),
-            "email": data.get("email"),
-            "password": make_password(data.get("password")),
-        }
-        with transaction.atomic():
-            user_serializer = self.serializer_class(data=user_data)
-            if user_serializer.is_valid():
-                user = user_serializer.save()
-
-                # Send email confirmation
-                email_address = EmailAddress.objects.create(user=user, email=user.email)
-                email_confirmation = EmailConfirmation.create(email_address)
-                email_confirmation.sent = datetime.now(timezone.utc)
-                email_confirmation.save()
-                send_email_confirmation(request, email_confirmation)
-
-                return Response(
-                    {
-                        "message": "El usuario se creo correctamente y se envió un correo de validación!"
-                    },
-                    status=status.HTTP_201_CREATED,
-                )
-        return Response(
-            {
-                "message": "Hay errores en el registro!",
-                "errors": user_serializer.errors,
-            },
-            status=status.HTTP_400_BAD_REQUEST,
-        )
 
     @extend_schema(description="Obtiene el detalle de un usuario", summary="Users")
     def retrieve(self, request, pk=None):
@@ -191,8 +105,3 @@ class UserViewSet(viewsets.GenericViewSet):
         return Response(
             {"message": "El usuario no existe!"}, status=status.HTTP_404_NOT_FOUND
         )
-
-
-class ProfileViewSet(viewsets.GenericViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializerFromUser

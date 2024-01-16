@@ -4,9 +4,7 @@ from .models import Profile
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "user_id",
-        "is_producer",
         "first_name",
         "last_name",
         "address_id",
@@ -16,7 +14,7 @@ class ProfileAdmin(admin.ModelAdmin):
         "first_name",
         "last_name",
     )
-    ordering = ("is_producer",)
+    ordering = ("user_id",)
 
 
 admin.site.register(Profile, ProfileAdmin)
