@@ -8,9 +8,10 @@ from rest_framework import status, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from utils.filters import ProfileFilterSet
+from rest_framework.permissions import IsAuthenticated
 
 
-class ProfileModelViewSet(ModelViewSet): 
+class ProfileModelViewSet(ModelViewSet):
     serializer_class = ProfileSerializer
     pagination_class = ExtendedPagination
     filter_backends = [
@@ -19,6 +20,7 @@ class ProfileModelViewSet(ModelViewSet):
         filters.SearchFilter,
     ]
     filterset_class = ProfileFilterSet
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.filter(is_active=True).order_by(

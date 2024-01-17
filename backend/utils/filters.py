@@ -12,6 +12,7 @@ class UserFilterSet(rest_framework.FilterSet):
         fields = (
             "username",
             "email",
+            "is_producer",
         )
 
 
@@ -43,7 +44,8 @@ class CageFilterSet(rest_framework.FilterSet):
             "total_weight",
         )
         ordering = ("created",)
-        
+
+
 class FarmFilterSet(rest_framework.FilterSet):
     class Meta:
         model = Farm
@@ -54,7 +56,8 @@ class FarmFilterSet(rest_framework.FilterSet):
             "description",
         )
         ordering = ("created",)
-        
+
+
 class ProfileFilterSet(rest_framework.FilterSet):
     class Meta:
         model = Profile
@@ -62,7 +65,6 @@ class ProfileFilterSet(rest_framework.FilterSet):
             "user_id",
             "first_name",
             "last_name",
-            "is_producer",
             "qualification",
         )
         ordering = ("created",)
