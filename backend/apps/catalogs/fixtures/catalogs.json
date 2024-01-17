@@ -1,0 +1,432 @@
+[
+{
+  "model": "apps_catalogs.state",
+  "pk": "03e89d97-66c7-4e02-b486-db7c3134ea3d",
+  "fields": {
+    "created": "2023-11-25T05:05:32.914Z",
+    "updated": "2023-11-25T05:05:32.914Z",
+    "is_active": true,
+    "state": "Campeche"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "10128636-d215-4d26-b840-c64bdd3b6b9d",
+  "fields": {
+    "created": "2023-11-25T05:05:32.914Z",
+    "updated": "2023-11-25T05:05:32.914Z",
+    "is_active": true,
+    "state": "Baja California Sur"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "310ab4a1-2b67-41e3-ae90-215919a364ec",
+  "fields": {
+    "created": "2023-11-25T05:05:32.919Z",
+    "updated": "2023-11-25T05:05:32.919Z",
+    "is_active": true,
+    "state": "México"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "32a3bce8-2a55-4bb4-a887-9d607388c513",
+  "fields": {
+    "created": "2023-11-25T05:05:32.919Z",
+    "updated": "2023-11-25T05:05:32.919Z",
+    "is_active": true,
+    "state": "Jalisco"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "5b3a8e99-07e6-419d-b29a-de648d8a5ed2",
+  "fields": {
+    "created": "2023-11-25T05:05:32.924Z",
+    "updated": "2023-11-25T05:05:32.924Z",
+    "is_active": true,
+    "state": "Yucatán"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "6179f01b-e844-4ba5-808e-592bc6abe9e5",
+  "fields": {
+    "created": "2023-11-25T05:05:32.920Z",
+    "updated": "2023-11-25T05:05:32.920Z",
+    "is_active": true,
+    "state": "Nayarit"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "61801751-0527-4e93-9a85-bb6b42f70c62",
+  "fields": {
+    "created": "2023-11-25T05:05:32.922Z",
+    "updated": "2023-11-25T05:05:32.922Z",
+    "is_active": true,
+    "state": "Tamaulipas"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "7a994d2c-a55e-4ddd-ad4e-700f90e1289f",
+  "fields": {
+    "created": "2023-11-25T05:05:32.920Z",
+    "updated": "2023-11-25T05:05:32.920Z",
+    "is_active": true,
+    "state": "Morelos"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "7c0dd927-f70d-4641-91be-2942158f38e0",
+  "fields": {
+    "created": "2023-11-25T05:05:32.919Z",
+    "updated": "2023-11-25T05:05:32.919Z",
+    "is_active": true,
+    "state": "Hidalgo"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "826ebeae-c724-4cea-9975-25e46c989793",
+  "fields": {
+    "created": "2023-11-25T05:05:32.915Z",
+    "updated": "2023-11-25T05:05:32.915Z",
+    "is_active": true,
+    "state": "Ciudad de México"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "86e9608e-7537-4356-bedf-f512784106a7",
+  "fields": {
+    "created": "2023-11-25T05:05:32.924Z",
+    "updated": "2023-11-25T05:05:32.924Z",
+    "is_active": true,
+    "state": "Veracruz"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "90f0be6c-367f-4f9e-a925-7785483a6998",
+  "fields": {
+    "created": "2023-11-25T05:05:32.914Z",
+    "updated": "2023-11-25T05:05:32.914Z",
+    "is_active": true,
+    "state": "Colima"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "922081db-4bcd-4b7e-862e-a2c5f117077e",
+  "fields": {
+    "created": "2023-11-25T05:05:32.923Z",
+    "updated": "2023-11-25T05:05:32.923Z",
+    "is_active": true,
+    "state": "Tlaxcala"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "946fc68f-145d-4fc7-8ce8-f8652fe01819",
+  "fields": {
+    "created": "2023-11-25T05:05:32.913Z",
+    "updated": "2023-11-25T05:05:32.913Z",
+    "is_active": true,
+    "state": "Baja California Norte"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "a2e39002-19be-4f32-9367-b0cf5f4fd203",
+  "fields": {
+    "created": "2023-11-25T05:05:32.914Z",
+    "updated": "2023-11-25T05:05:32.914Z",
+    "is_active": true,
+    "state": "Chiapas"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "a7dd5442-0447-4c79-899f-dd373d75eeef",
+  "fields": {
+    "created": "2023-11-25T05:05:32.921Z",
+    "updated": "2023-11-25T05:05:32.921Z",
+    "is_active": true,
+    "state": "Oaxaca"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "aab880c9-efba-4dba-88ae-4f37f995908e",
+  "fields": {
+    "created": "2023-11-25T05:05:32.923Z",
+    "updated": "2023-11-25T05:05:32.923Z",
+    "is_active": true,
+    "state": "San Luis Potosí"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "af583875-d900-4521-bb59-29c1b7f9aad3",
+  "fields": {
+    "created": "2023-11-25T05:05:32.919Z",
+    "updated": "2023-11-25T05:05:32.919Z",
+    "is_active": true,
+    "state": "Guerrero"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "b0f0c069-4629-4e6e-ab93-7a552a797479",
+  "fields": {
+    "created": "2023-11-25T05:05:32.921Z",
+    "updated": "2023-11-25T05:05:32.921Z",
+    "is_active": true,
+    "state": "Queretaro"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "b20ef35a-9879-4631-9c21-c2e22cfe4fbd",
+  "fields": {
+    "created": "2023-11-25T05:05:32.919Z",
+    "updated": "2023-11-25T05:05:32.919Z",
+    "is_active": true,
+    "state": "Guanajuato"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "b7d44392-6f30-414c-af38-e720b31875cc",
+  "fields": {
+    "created": "2023-11-25T05:05:32.921Z",
+    "updated": "2023-11-25T05:05:32.921Z",
+    "is_active": true,
+    "state": "Puebla"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "c9cc669f-d943-4986-b919-e5ff7f93ddc1",
+  "fields": {
+    "created": "2023-11-25T05:05:32.922Z",
+    "updated": "2023-11-25T05:05:32.922Z",
+    "is_active": true,
+    "state": "Tabasco"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "cc739648-79b9-4f49-8e72-66aa9ed0662c",
+  "fields": {
+    "created": "2023-11-25T05:05:32.923Z",
+    "updated": "2023-11-25T05:05:32.923Z",
+    "is_active": true,
+    "state": "Sonora"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "d8bd4edb-9fcb-4c30-afe5-a098b08612e3",
+  "fields": {
+    "created": "2023-11-25T05:05:32.922Z",
+    "updated": "2023-11-25T05:05:32.922Z",
+    "is_active": true,
+    "state": "Quintana Roo"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "e10a1e9f-320c-4b36-b13b-b1826e548650",
+  "fields": {
+    "created": "2023-11-25T05:05:32.913Z",
+    "updated": "2023-11-25T05:05:32.913Z",
+    "is_active": true,
+    "state": "Aguascalientes"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "e4572231-2b49-43df-b6cb-b717d2727d8d",
+  "fields": {
+    "created": "2023-11-25T05:05:32.918Z",
+    "updated": "2023-11-25T05:05:32.918Z",
+    "is_active": true,
+    "state": "Coahuila"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "e665a095-0c5e-4c93-a3c9-b2e0bf4dac0b",
+  "fields": {
+    "created": "2023-11-25T05:05:32.918Z",
+    "updated": "2023-11-25T05:05:32.918Z",
+    "is_active": true,
+    "state": "Durango"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "e6910c25-a28d-48f1-900a-abe8fcf2459f",
+  "fields": {
+    "created": "2023-11-25T05:05:32.920Z",
+    "updated": "2023-11-25T05:05:32.920Z",
+    "is_active": true,
+    "state": "Nuevo León"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "ef4a8b77-77e0-4e5c-b3d5-15e2a5bb4257",
+  "fields": {
+    "created": "2023-11-25T05:05:32.924Z",
+    "updated": "2023-11-25T05:05:32.924Z",
+    "is_active": true,
+    "state": "Zacatecas"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "f0462a2e-7adf-4401-aa42-5bae3c95266b",
+  "fields": {
+    "created": "2023-11-25T05:05:32.914Z",
+    "updated": "2023-11-25T05:05:32.914Z",
+    "is_active": true,
+    "state": "Chihuhua"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "f55e9dc7-4311-4400-aced-6e73702ed33d",
+  "fields": {
+    "created": "2023-11-25T05:05:32.920Z",
+    "updated": "2023-11-25T05:05:32.920Z",
+    "is_active": true,
+    "state": "Michoacán"
+  }
+},
+{
+  "model": "apps_catalogs.state",
+  "pk": "fcea1504-c7ce-4dab-8eb8-4000c9605d2f",
+  "fields": {
+    "created": "2023-11-25T05:05:32.923Z",
+    "updated": "2023-11-25T05:05:32.923Z",
+    "is_active": true,
+    "state": "Sinaloa"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "04de54ad-02c1-4716-b426-dc11079ea911",
+  "fields": {
+    "created": "2023-11-25T05:05:33.324Z",
+    "updated": "2023-11-25T05:05:33.324Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Cuauhtemoc"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "0dd62ec5-5411-47cf-9d56-41f92dd40bff",
+  "fields": {
+    "created": "2023-11-25T05:05:33.323Z",
+    "updated": "2023-11-25T05:05:33.323Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Colima"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "0eb4d713-7eb2-4cd6-af98-0ef934000210",
+  "fields": {
+    "created": "2023-11-25T05:05:33.325Z",
+    "updated": "2023-11-25T05:05:33.325Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Villa de Álvarez"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "60a6cf9b-1176-4e79-8151-f2c8878581fd",
+  "fields": {
+    "created": "2023-11-25T05:05:33.325Z",
+    "updated": "2023-11-25T05:05:33.325Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Armería"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "72c8f25f-b757-4e54-93ea-c446812f11e4",
+  "fields": {
+    "created": "2023-11-25T05:05:33.327Z",
+    "updated": "2023-11-25T05:05:33.327Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Minatitlán"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "8b5dcde7-b366-41a3-813d-9d48ec7526ef",
+  "fields": {
+    "created": "2023-11-25T05:05:33.327Z",
+    "updated": "2023-11-25T05:05:33.327Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Tecomán"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "9a7c603a-9c58-4b66-8ece-748a59341ca2",
+  "fields": {
+    "created": "2023-11-25T05:05:33.326Z",
+    "updated": "2023-11-25T05:05:33.326Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Ixtlahuacán"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "a4ff43e7-c13b-49e9-8c0e-6ef31f8b9d1b",
+  "fields": {
+    "created": "2023-11-25T05:05:33.323Z",
+    "updated": "2023-11-25T05:05:33.323Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Comala"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "a8547521-ab00-4eb4-ad0d-126e80dd5b23",
+  "fields": {
+    "created": "2023-11-25T05:05:33.326Z",
+    "updated": "2023-11-25T05:05:33.326Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Manzanillo"
+  }
+},
+{
+  "model": "apps_catalogs.city",
+  "pk": "cbc8af30-f79b-4b7d-9a35-1325476360b3",
+  "fields": {
+    "created": "2023-11-25T05:05:33.324Z",
+    "updated": "2023-11-25T05:05:33.324Z",
+    "is_active": true,
+    "state": "90f0be6c-367f-4f9e-a925-7785483a6998",
+    "city": "Coquimatlán"
+  }
+}
+]
