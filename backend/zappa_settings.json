@@ -1,0 +1,18 @@
+{
+    "staging": {
+        "aws_region": "us-east-1",
+        "django_settings": "rabbits_farm.settings",
+        "profile_name": "default",
+        "project_name": "rabbits_farm",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-drf-el-buen-conejo",
+        "timeout_seconds": 900,
+        "manage_roles": false,
+        "role_name": "ZappaDjangoRole",
+        "role_arn": "arn:aws:iam::709022986738:role/ZappaDjangoRole",
+        "vpc_config" : {
+            "SubnetIds": ["subnet-0a4cb8885d90d97f6", "subnet-0ed094683dd803549", "subnet-0173ba8e886718df9", "subnet-0ae4ff1f1d7815ee2"],
+            "SecurityGroupIds": [ "sg-075e5a37e51b9562d" ]
+        }
+    }
+}
