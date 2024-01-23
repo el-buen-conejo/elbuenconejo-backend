@@ -8,7 +8,7 @@ from rest_framework import status, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from utils.filters import ProfileFilterSet
-from rest_framework.permissions import IsAuthenticated
+from apps.users.api import permisssions
 
 
 class ProfileModelViewSet(ModelViewSet):
@@ -20,12 +20,12 @@ class ProfileModelViewSet(ModelViewSet):
         filters.SearchFilter,
     ]
     filterset_class = ProfileFilterSet
-    permission_classes = [IsAuthenticated]
+    permission_classes = [
+        permisssions.IsBuyer | permisssions.IsFarmer | permisssions.ReadOnly
+    ]
 
     def get_queryset(self):
-        return self.serializer_class.Meta.model.objects.filter(is_active=True).order_by(
-            "last_name"
-        )
+        return self.serializer_class.Meta.model.objects.order_by("last_name")
 
     @extend_schema(request=ProfilePhotoSerializer, responses=ProfilePhotoSerializer)
     @action(
