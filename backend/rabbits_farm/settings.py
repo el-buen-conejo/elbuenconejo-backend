@@ -16,5 +16,5 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "vel779frwb.execute-api.us-east-1.amazonaws.com",
+    "api-el-buen-conejo-dev.us-east-1.elasticbeanstalk.com",
 ]
