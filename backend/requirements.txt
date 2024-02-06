@@ -1,2 +1,2 @@
 # Dependencies that mirror production
--r /elbuenconejo-backend/backend/requirements/prod.txt
+-r backend/requirements/prod.txt
