@@ -1,40 +1,37 @@
 version: 0.0
-os: linux 
-files:
-  - source: /backend/rabbits_farm/
-    destination: /home/ubuntu/rabbits_farm
-  - source: /backend/apps/
-    destination: /home/ubuntu/apps
-  - source: /manage.py
-    destination: /home/ubuntu
-  - source: /supervisord.conf
-    destination: /home/ubuntu
-  - source: /requirements.txt
-    destination: /home/ubuntu
-  - source: /requirements/
-    destination: /home/ubuntu/requirements
-
+os: linux
+files: 
+  - source: /
+    destination: /home/ubuntu/elbuenconejo-backend/backend
 permissions:
-  - object: /home/ubuntu/manage.py
+  - object: /home/ubuntu/elbuenconejo-backend/backend
     owner: ubuntu
-    mode: 644
-    type:
-      - file
-  - object: /home/ubuntu/supervisord.conf
-    owner: ec2-user
-    mode: 644
-    type:
-      - file
+    group: ubuntu
 hooks:
+  BeforeInstall:
+      - location: scripts/deploy/clean_instance.sh
+        timeout: 300
+        runas: ubuntu
   AfterInstall:
-    - location: scripts/install_dependencies
-      timeout: 300
-      runas: root
-    - location: scripts/start_server
-      timeout: 300
-      runas: root
-
+      - location: scripts/deploy/instance_os_dependencies.sh
+        timeout: 300
+        runas: ubuntu
+      - location: scripts/deploy/python_dependencies.sh
+        timeout: 300
+        runas: ubuntu
+      - location: scripts/deploy/gunicorn.sh
+        timeout: 300
+        runas: ubuntu
+      - location: scripts/deploy/nginx.sh
+        timeout: 300
+        runas: ubuntu
   ApplicationStop:
-    - location: scripts/stop_server
-      timeout: 300
-      runas: root
+      - location: scripts/deploy/stop_app.sh
+        timeout: 300
+        runas: ubuntu
+  ApplicationStart:
+      - location: scripts/deploy/start_app.sh
+        timeout: 300
+        runas: ubuntu
+  
+  
