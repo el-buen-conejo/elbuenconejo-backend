@@ -2,25 +2,25 @@ version: 0.0
 os: linux 
 files:
   - source: /backend/rabbits_farm/
-    destination: /home/ec2-user/rabbits_farm
+    destination: /home/ubuntu/rabbits_farm
   - source: /backend/apps/
-    destination: /home/ec2-user/apps
+    destination: /home/ubuntu/apps
   - source: /manage.py
-    destination: /home/ec2-user
+    destination: /home/ubuntu
   - source: /supervisord.conf
-    destination: /home/ec2-user
+    destination: /home/ubuntu
   - source: /requirements.txt
-    destination: /home/ec2-user
+    destination: /home/ubuntu
   - source: /requirements/
-    destination: /home/ec2-user/requirements
+    destination: /home/ubuntu/requirements
 
 permissions:
-  - object: /home/ec2-user/manage.py
-    owner: ec2-user
+  - object: /home/ubuntu/manage.py
+    owner: ubuntu
     mode: 644
     type:
       - file
-  - object: /home/ec2-user/supervisord.conf
+  - object: /home/ubuntu/supervisord.conf
     owner: ec2-user
     mode: 644
     type:
