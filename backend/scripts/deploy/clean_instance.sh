@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-# sudo rm -rf /home/ubuntu/elbuenconejo-backend/backend/*
+sudo rm -rf /home/ubuntu/elbuenconejo-backend/backend/*
