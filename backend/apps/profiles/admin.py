@@ -9,6 +9,8 @@ class ProfileAdmin(admin.ModelAdmin):
         "last_name",
         "address_id",
         "photo",
+        "qualification",
+        "saw_tutorial",
     )
     search_fields = (
         "first_name",
