@@ -9,7 +9,7 @@ WorkingDirectory=/home/ubuntu/elbuenconejo-backend
 ExecStart=/home/ubuntu/env/bin/gunicorn \
     --access-logfile - \
     --workers 3 \
-    --bind unix:/run/gunicorn.sock \
+    --bind 0.0.0.0:8000 \
     rabbits_farm.wsgi:application
 
        
