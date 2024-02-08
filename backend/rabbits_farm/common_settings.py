@@ -99,6 +99,8 @@ THIRD_APPS = [
     # "allauth.socialaccount.providers.google",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "zappa_django_utils",
+    "drf_standardized_errors",
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -122,14 +124,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# Authenication backends
-# AUTHENTICATION_BACKENDS = [
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     "django.contrib.auth.backends.ModelBackend",
-#     # `allauth` specific authentication methods, such as login by email
-#     "allauth.account.auth_backends.AuthenticationBackend",
-# ]
 
 
 WSGI_APPLICATION = "rabbits_farm.wsgi.application"
@@ -175,16 +169,16 @@ USE_TZ = True
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DRF_STANDARDIZED_ERRORS = {"ENABLE_IN_DEBUG_FOR_UNHANDLED_EXCEPTIONS": True}
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
-        # "rest_framework.authentication.TokenAuthentication",
-        # "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
     # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_standardized_errors.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -198,20 +192,34 @@ SIMPLE_JWT = {
 }
 
 REST_AUTH = {
-    # "SESSION_LOGIN": True,
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
-    # "JWT_AUTH_COOKIE": "auth",
-    # "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
 }
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "El Buen Conejo API",
     "DESCRIPTION": "API para la plataforma del Buen Conejo",
-    "VERSION": "1.0.0",
+    "VERSION": "2.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
     "COMPONENT_SPLIT_REQUEST": True,
+    "SCHEMA_PATH_PREFIX_INSERT": "/staging",
     # OTHER SETTINGS
+    "ENUM_NAME_OVERRIDES": {
+        "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
+        "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
+        "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
+        "ErrorCode401Enum": "drf_standardized_errors.openapi_serializers.ErrorCode401Enum.choices",
+        "ErrorCode403Enum": "drf_standardized_errors.openapi_serializers.ErrorCode403Enum.choices",
+        "ErrorCode404Enum": "drf_standardized_errors.openapi_serializers.ErrorCode404Enum.choices",
+        "ErrorCode405Enum": "drf_standardized_errors.openapi_serializers.ErrorCode405Enum.choices",
+        "ErrorCode406Enum": "drf_standardized_errors.openapi_serializers.ErrorCode406Enum.choices",
+        "ErrorCode415Enum": "drf_standardized_errors.openapi_serializers.ErrorCode415Enum.choices",
+        "ErrorCode429Enum": "drf_standardized_errors.openapi_serializers.ErrorCode429Enum.choices",
+        "ErrorCode500Enum": "drf_standardized_errors.openapi_serializers.ErrorCode500Enum.choices",
+    },
+    "POSTPROCESSING_HOOKS": [
+        "drf_standardized_errors.openapi_hooks.postprocess_schema_enums"
+    ],
 }
 
 MIDDLEWARE = [
@@ -258,8 +266,8 @@ PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "staticfiles/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URLS = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
@@ -277,19 +285,20 @@ STORAGES = {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
 }
 
 # # Correo electrónico
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = env("SMTP_SERVER")
-# EMAIL_PORT = env("EMAIL_PORT")
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = env("EMAIL_USER")
-# EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
-# DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env("SMTP_SERVER")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = env("EMAIL_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True

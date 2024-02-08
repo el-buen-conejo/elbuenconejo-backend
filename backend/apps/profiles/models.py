@@ -16,9 +16,9 @@ def get_upload_path(instance, filename):
 
 
 # Create your models here.
-class Profile(AbstractModel):
+class Profile(models.Model):
     """
-     The Profile is extended user date.
+     The Profile is extended user data.
 
     Args:
         user_id ( str ): related with user model
@@ -27,8 +27,7 @@ class Profile(AbstractModel):
         is_active ( boolean ): logic delete.
     """
 
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_producer = models.BooleanField(default=False)
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     address_id = models.OneToOneField(
