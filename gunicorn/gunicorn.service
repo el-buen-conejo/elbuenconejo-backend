@@ -6,7 +6,11 @@ After=network.target
 User=ubuntu
 Group=www-data
 WorkingDirectory=/home/ubuntu/elbuenconejo-backend
-ExecStart=/home/ubuntu/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/elbuenconejo-backend/rabbits_farm/rabbits_farm.sock rabbits_farm.wsgi:application
+ExecStart=/home/ubuntu/env/bin/gunicorn \
+    --access-logfile - \
+    --workers 3 \
+    --bind unix:/run/gunicorn.sock \
+    rabbits_farm.wsgi:application
 
        
 [Install]
