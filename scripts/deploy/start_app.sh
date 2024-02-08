@@ -1,6 +1,6 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["34.236.44.132"]/' /home/ubuntu/elbuenconejo-backend/rabbits_farm/prod_settings.py
+sed -i 's/\[]/\["34.236.44.132"]/' /home/ubuntu/elbuenconejo-backend/rabbits_farm/settings.py
 
 python manage.py migrate 
 python manage.py makemigrations     
