@@ -8,6 +8,10 @@ permissions:
     owner: ubuntu
     group: ubuntu
 hooks:
+  ApplicationStop:
+      - location: scripts/deploy/stop_app.sh
+        timeout: 300
+        runas: ubuntu
   BeforeInstall:
       - location: scripts/deploy/clean_instance.sh
         timeout: 300
@@ -23,10 +27,6 @@ hooks:
         timeout: 300
         runas: ubuntu
       - location: scripts/deploy/nginx.sh
-        timeout: 300
-        runas: ubuntu
-  ApplicationStop:
-      - location: scripts/deploy/stop_app.sh
         timeout: 300
         runas: ubuntu
   ApplicationStart:
