@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files: 
   - source: /
-    destination: /home/ubuntu/elbuenconejo-backend/backend
+    destination: /home/ubuntu/elbuenconejo-backend
 permissions:
-  - object: /home/ubuntu/elbuenconejo-backend/backend
+  - object: /home/ubuntu/elbuenconejo-backend
     owner: ubuntu
     group: ubuntu
 hooks:
