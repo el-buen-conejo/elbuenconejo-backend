@@ -3,7 +3,7 @@ from .common_settings import *
 # This code is for production
 # If exists environemnt variable AWS_EXTERNAL_HOSTNAME then append element in ALLOWED_HOSTS list and DEBUG is False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["34.236.44.132"]
 # ALLOWED_HOSTS.append(env("AWS_EXTERNAL_HOSTNAME"))
 
 DEBUG = False
