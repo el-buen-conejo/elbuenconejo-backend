@@ -300,15 +300,16 @@ EMAIL_HOST_USER = env("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 
+ALLOWED_HOSTS = ["*"]
+
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
-    ALLOWED_HOSTS = ["*"]
 else:
     # This code is for production
     # If exists environemnt variable AWS_EXTERNAL_HOSTNAME then append element in ALLOWED_HOSTS list and DEBUG is False
 
-    ALLOWED_HOSTS = []
-    ALLOWED_HOSTS.append(env("AWS_EXTERNAL_HOSTNAME"))
+    # ALLOWED_HOSTS = ["*"]
+    # ALLOWED_HOSTS.append(env("AWS_EXTERNAL_HOSTNAME"))
 
     # Configuration of django-cors-headers
     CORS_ALLOW_ALL_ORIGINS = True
@@ -328,7 +329,7 @@ else:
         "x-requested-with",
     ]
 
-    # CORS_ALLOWED_ORIGINS = [
-    #     "http://localhost:3000/",
-    #     "http://127.0.0.1:3000/",
-    # ]
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000/",
+        "http://127.0.0.1:3000/",
+    ]
