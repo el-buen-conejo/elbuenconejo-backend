@@ -300,7 +300,7 @@ EMAIL_HOST_USER = env("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
@@ -312,6 +312,8 @@ else:
     # ALLOWED_HOSTS.append(env("AWS_EXTERNAL_HOSTNAME"))
 
     # Configuration of django-cors-headers
+    ALLOWED_HOSTS = ["api-good-rabbit.website"]
+
     CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOW_CREDENTIALS = True
 
