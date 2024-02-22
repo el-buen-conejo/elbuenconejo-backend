@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    DEBUG=(bool, False)
 )
 # Set the project base directory
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -99,7 +99,7 @@ THIRD_APPS = [
     # "allauth.socialaccount.providers.google",
     "dj_rest_auth",
     "dj_rest_auth.registration",
-    "zappa_django_utils",
+    # "zappa_django_utils",
     "drf_standardized_errors",
 ]
 
@@ -202,7 +202,7 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "2.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
     "COMPONENT_SPLIT_REQUEST": True,
-    "SCHEMA_PATH_PREFIX_INSERT": "/staging",
+    # "SCHEMA_PATH_PREFIX_INSERT": "/staging",
     # OTHER SETTINGS
     "ENUM_NAME_OVERRIDES": {
         "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
@@ -300,10 +300,38 @@ EMAIL_HOST_USER = env("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:3000/",
-        "http://127.0.0.1:3000/",
+    # This code is for production
+    # If exists environemnt variable AWS_EXTERNAL_HOSTNAME then append element in ALLOWED_HOSTS list and DEBUG is False
+
+    # ALLOWED_HOSTS = ["*"]
+    # ALLOWED_HOSTS.append(env("AWS_EXTERNAL_HOSTNAME"))
+
+    # Configuration of django-cors-headers
+    ALLOWED_HOSTS = ["api-good-rabbit.website"]
+
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
+
+    MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
+
+    CORS_ALLOW_HEADERS = [
+        "accept",
+        "accept-encoding",
+        "authorization",
+        "content-type",
+        "dnt",
+        "origin",
+        "user-agent",
+        "x-csrftoken",
+        "x-requested-with",
     ]
+
+    # CORS_ALLOWED_ORIGINS = [
+    #     "http://localhost:3000/",
+    #     "http://127.0.0.1:3000/",
+    # ]
