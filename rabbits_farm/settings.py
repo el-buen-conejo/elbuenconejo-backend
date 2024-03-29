@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
-from datetime import timedelta
-import environ
 import os
+from datetime import timedelta
+from pathlib import Path
+
+import environ
 
 # from utils.get_parameters_store.parameter_store import get_parameter
 
