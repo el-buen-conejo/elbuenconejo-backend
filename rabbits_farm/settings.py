@@ -331,7 +331,3 @@ else:
         "x-csrftoken",
         "x-requested-with",
     ]
-
-    CORS_ALLOWED_ORIGINS = [
-        "http://www.localhost:3000/",
-    ]
