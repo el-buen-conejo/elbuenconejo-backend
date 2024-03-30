@@ -16,6 +16,12 @@ from pathlib import Path
 
 import environ
 
+
+from utils.cloudwatch_logger import configure_cloudwatch_logger
+
+# Llama a la función para configurar el logger de CloudWatch
+configure_cloudwatch_logger()
+
 # from utils.get_parameters_store.parameter_store import get_parameter
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
