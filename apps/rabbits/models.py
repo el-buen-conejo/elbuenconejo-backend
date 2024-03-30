@@ -1,8 +1,10 @@
-from django.db import models
-from apps.cages.models import Cage
-from apps.abstracts.models import AbstractModel
-from django.utils import timezone
 import os
+
+from django.db import models
+from django.utils import timezone
+
+from apps.abstracts.models import AbstractModel
+from apps.cages.models import Cage
 
 
 def get_upload_path(instance, filename):
@@ -47,7 +49,14 @@ class Rabbit(AbstractModel):
         ("Hembra", "Hembra"),
     )
 
-    cage_id = models.ForeignKey(Cage, on_delete=models.CASCADE, related_name="rabbits")
+    cage_id = models.ForeignKey(
+        Cage,
+        on_delete=models.CASCADE,
+        related_name="rabbits",
+        null=True,
+        blank=True,
+        default=None,
+    )
     breed = models.CharField(choices=BREED_CHOICE, blank=False, default="Especie")
     genre = models.CharField(choices=GENDER_CHOICE, blank=False, default="Genero")
     birthday = models.DateField(null=False, blank=False, default=timezone.now)
