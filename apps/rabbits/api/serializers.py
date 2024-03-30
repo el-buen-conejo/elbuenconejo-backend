@@ -1,10 +1,13 @@
 from datetime import date
-from rest_framework import serializers
-from apps.rabbits.models import Rabbit
+
 from dateutil.relativedelta import relativedelta
+from rest_framework import serializers
+
+from apps.rabbits.models import Rabbit
+
 
 class RabbitSerializer(serializers.ModelSerializer):
-    tag = serializers.CharField(required=True) 
+    tag = serializers.CharField(required=True)
     age = serializers.SerializerMethodField()
 
     class Meta:
@@ -17,7 +20,7 @@ class RabbitSerializer(serializers.ModelSerializer):
             "age",
             "tag",
         )
-        
+
     def validate_price(self, value):
         if value < 0:
             raise serializers.ValidationError("El precio no puede ser inferior a 0")
@@ -56,22 +59,26 @@ class RabbitSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        cage = validated_data.get("cage_id")
+        if validated_data.get("cage_id"):
+            cage = validated_data.get("cage_id")
+
         rabbit = Rabbit.objects.create(**validated_data)
 
-        if rabbit.is_active:
+        if rabbit.is_active and validated_data.get("cage_id"):
             cage.count_rabbits += 1
             cage.price += rabbit.price
             cage.total_weight += rabbit.weight
             cage.save()
+
         return rabbit
 
     def update(self, instance, validated_data):
-        cage = instance.cage_id
+        if validated_data.get("cage_id"):
+            cage = instance.cage_id
 
-        if instance.is_active:
-            cage.price -= instance.price
-            cage.total_weight -= instance.weight
+            if instance.is_active:
+                cage.price -= instance.price
+                cage.total_weight -= instance.weight
 
         instance.breed = validated_data.get("breed", instance.breed)
         instance.genre = validated_data.get("genre", instance.genre)
@@ -81,13 +88,15 @@ class RabbitSerializer(serializers.ModelSerializer):
         instance.weight = validated_data.get("weight", instance.weight)
         instance.photo = validated_data.get("photo", instance.photo)
         instance.save()
-        
-        if instance.is_active:
-            cage.price += instance.price
-            cage.total_weight += instance.weight
-            cage.save()
+
+        if validated_data.get("cage_id"):
+            if instance.is_active:
+                cage.price += instance.price
+                cage.total_weight += instance.weight
+                cage.save()
+
         return instance
-    
+
     def delete(self, instance):
         cage = instance.cage_id
 
@@ -96,10 +105,9 @@ class RabbitSerializer(serializers.ModelSerializer):
             cage.price -= instance.price
             cage.total_weight -= instance.weight
             cage.save()
-    
+
         instance.is_active = False
         instance.save()
-
 
 
 class RabbitPhotoSerializer(serializers.ModelSerializer):
