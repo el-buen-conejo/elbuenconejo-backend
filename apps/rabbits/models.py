@@ -57,8 +57,12 @@ class Rabbit(AbstractModel):
         blank=True,
         default=None,
     )
-    breed = models.CharField(choices=BREED_CHOICE, blank=False, default="Especie")
-    genre = models.CharField(choices=GENDER_CHOICE, blank=False, default="Genero")
+    breed = models.CharField(
+        choices=BREED_CHOICE, blank=False, default="Especie", max_length=18
+    )
+    genre = models.CharField(
+        choices=GENDER_CHOICE, blank=False, default="Genero", max_length=6
+    )
     birthday = models.DateField(null=False, blank=False, default=timezone.now)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     tag = models.CharField(max_length=15, unique=True, blank=False)
