@@ -1,19 +1,20 @@
-from rest_framework import viewsets, status, filters
+from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiExample, extend_schema
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
+
+from apps.rabbits.api.serializers import RabbitPhotoSerializer, RabbitSerializer
 from apps.rabbits.models import Rabbit
 from utils.filters import RabbitFilterSet
 from utils.pagination import RabbitPagination
-from apps.rabbits.api.serializers import RabbitSerializer, RabbitPhotoSerializer
-from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import Q
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.decorators import action
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from utils.permisssions import ListAndRetrievePermission
 
 
 class RabbitViewSet(viewsets.ModelViewSet):
-    queryset = Rabbit.objects.filter(is_active=True).order_by("-created") 
+    queryset = Rabbit.objects.filter(is_active=True).order_by("-created")
     serializer_class = RabbitSerializer
     pagination_class = RabbitPagination
     filter_backends = [
@@ -92,7 +93,7 @@ class RabbitViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):   
+    def destroy(self, request, pk=None):
         rabbit_destroy = self.serializer_class.Meta.model.objects.filter(id=pk).first()
         if rabbit_destroy:
             serializer = self.get_serializer(rabbit_destroy)
@@ -131,7 +132,6 @@ class RabbitViewSet(viewsets.ModelViewSet):
                     "tag": "AB123",
                     "price": "500",
                     "weight": "6",
-                    "cage_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 },
             )
         ],

@@ -1,22 +1,23 @@
-from utils.filters import UserFilterSet
-from utils.pagination import ExtendedPagination
+from django.shortcuts import get_object_or_404
+from django_filters import rest_framework
+from drf_spectacular.utils import extend_schema
+from rest_framework import filters, status, viewsets
+from rest_framework.response import Response
+
 from apps.users.api.serializers import (
     UserListSerializer,
     UserSerializer,
     UserUpdateSerializer,
 )
-from django.shortcuts import get_object_or_404
-from django_filters import rest_framework
+from utils.filters import UserFilterSet
+from utils.pagination import ExtendedPagination
 
-from rest_framework import filters, status, viewsets
-from rest_framework.response import Response
 from .permisssions import CreateUserPermission
-
-from drf_spectacular.utils import extend_schema
 
 
 class UserViewSet(viewsets.GenericViewSet):
     serializer_class = UserSerializer
+
     list_serializer_class = UserListSerializer
     filter_backends = [
         rest_framework.DjangoFilterBackend,
@@ -66,6 +67,14 @@ class UserViewSet(viewsets.GenericViewSet):
         """
         user = self.get_object(pk)
         user_serializer = self.serializer_class(user)
+
+        print(request.headers)
+
+        # if meta := request.META.get("HTTP_REFERER"):
+        #     print("La petición proviene de:", meta)
+        # else:
+        #     print("No se encontró el origen de la petición")
+
         return Response(user_serializer.data)
 
     @extend_schema(description="Actualiza un usuario", summary="Users")

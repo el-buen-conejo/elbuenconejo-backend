@@ -10,10 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
-from datetime import timedelta
-import environ
 import os
+from datetime import timedelta
+from pathlib import Path
+
+import environ
+
+
+from utils.cloudwatch_logger import configure_cloudwatch_logger
+
+# Llama a la función para configurar el logger de CloudWatch
+configure_cloudwatch_logger()
 
 # from utils.get_parameters_store.parameter_store import get_parameter
 
@@ -330,8 +337,3 @@ else:
         "x-csrftoken",
         "x-requested-with",
     ]
-
-    # CORS_ALLOWED_ORIGINS = [
-    #     "http://localhost:3000/",
-    #     "http://127.0.0.1:3000/",
-    # ]
