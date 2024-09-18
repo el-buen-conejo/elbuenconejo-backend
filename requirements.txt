@@ -74,3 +74,4 @@ urllib3==1.26.18
 Werkzeug==3.0.1
 whitenoise==6.6.0
 yarg==0.1.9
+cloudinary

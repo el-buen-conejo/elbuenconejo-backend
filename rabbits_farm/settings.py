@@ -104,6 +104,7 @@ THIRD_APPS = [
     "dj_rest_auth.registration",
     # "zappa_django_utils",
     "drf_standardized_errors",
+    "cloudinary",
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -277,7 +278,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("SMTP_SERVER")
 EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_USE_SSL = True
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = env("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
@@ -285,6 +286,12 @@ DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 ALLOWED_HOSTS = ["*"]
 
 ADMINS = [({env("ADMIN1_NAME")}, {env("ADMIN1_EMAIL")})]
+
+CLOUDINARY = {
+    "cloud_name": env("CLOUDINARY_CLOUD_NAME"),
+    "api_key": env("CLOUDINARY_API_KEY"),
+    "api_secret": env("CLOUDINARY_API_SECRET"),
+}
 
 # Logging
 PROPAGATE = env("PROPAGATE")
@@ -359,6 +366,7 @@ LOGGING = {
         },
     },
 }
+
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
