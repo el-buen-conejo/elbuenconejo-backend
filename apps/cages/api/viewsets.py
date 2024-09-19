@@ -3,7 +3,7 @@ from drf_spectacular.utils import OpenApiExample, extend_schema
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.cages.api.serializers import CagePhotoSerializer, CageSerializer
@@ -43,6 +43,11 @@ class CageViewSet(viewsets.ModelViewSet):
     )
 
     permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     # Range of price filter
     @action(detail=False, methods=["get"])
