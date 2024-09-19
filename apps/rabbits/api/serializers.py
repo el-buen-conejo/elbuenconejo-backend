@@ -111,6 +111,8 @@ class RabbitSerializer(serializers.ModelSerializer):
 
 
 class RabbitPhotoSerializer(serializers.ModelSerializer):
+    photo = serializers.ImageField()  # define the photo field how a image
+
     class Meta:
         model = Rabbit
         fields = ("photo",)

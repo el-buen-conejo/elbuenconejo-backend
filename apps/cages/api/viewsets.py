@@ -192,7 +192,7 @@ class CageViewSet(viewsets.ModelViewSet):
         # Verify if the user is the owner of the farm
         if cage.farm_id.profile_id.user_id_id != request.user.id:
             return Response(
-                {"detail": "No tiene permiso para modificar esta granja."},
+                {"detail": "No tiene permiso para modificar esta jaula."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
