@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from ..models import Farm
 
 
@@ -9,6 +10,8 @@ class farmSerializer(serializers.ModelSerializer):
 
 
 class FarmPhotoSerializer(serializers.ModelSerializer):
+    photo = serializers.ImageField()  # define the photo field how a image
+
     class Meta:
         model = Farm
         fields = ("photo",)

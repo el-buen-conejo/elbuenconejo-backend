@@ -4,13 +4,14 @@ from drf_spectacular.utils import OpenApiExample, extend_schema
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.rabbits.api.serializers import RabbitPhotoSerializer, RabbitSerializer
 from apps.rabbits.models import Rabbit
 from utils.filters import RabbitFilterSet
 from utils.pagination import RabbitPagination
-from utils.permisssions import ListAndRetrievePermission
+from utils.upload import upload_image_to_cloudinary
 
 
 class RabbitViewSet(viewsets.ModelViewSet):
@@ -29,7 +30,12 @@ class RabbitViewSet(viewsets.ModelViewSet):
         "age",
         "tag",
     )
-    permission_classes = [ListAndRetrievePermission]
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     def get_queryset(self):
         queryset = Rabbit.objects.filter(is_active=True)
@@ -106,17 +112,54 @@ class RabbitViewSet(viewsets.ModelViewSet):
             {"message": "El conejo no existe"}, status=status.HTTP_404_NOT_FOUND
         )
 
-    @extend_schema(request=RabbitPhotoSerializer, responses=RabbitPhotoSerializer)
+    @extend_schema(
+        request=RabbitPhotoSerializer,
+        responses=RabbitPhotoSerializer,
+        examples=[
+            OpenApiExample(
+                "Photo upload",
+                value={"photo": "image.jpeg"},
+                media_type="multipart/form-data",
+            )
+        ],
+    )
     @action(
         detail=True, methods=["patch"], parser_classes=[MultiPartParser, FormParser]
     )
     def change_photo(self, request, pk=None):
         rabbit = self.get_object()
+
+        # Verify if the user is the owner of the farm
+        if rabbit.cage_id.farm_id.profile_id.user_id_id != request.user.id:
+            return Response(
+                {"detail": "No tiene permiso para modificar este conejo."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = RabbitPhotoSerializer(
             instance=rabbit, data=request.data, partial=True
         )
         if serializer.is_valid():
+            photo_file = request.FILES.get("photo")
+
+            if not photo_file:
+                return Response(
+                    {"detail": "No se ha proporcionado una imagen válida."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Upload the image to Cloudinary
+
+            upload_url = upload_image_to_cloudinary(photo_file, target="fotos/conejos")
+            request.data["photo"] = upload_url
+
+            # Update the photo field in the serializer
+            serializer.validated_data["photo"] = upload_url
+
+            print("--" * 50)
+            print(f"Imagen: {upload_url}")
             serializer.save()
+
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -126,6 +169,7 @@ class RabbitViewSet(viewsets.ModelViewSet):
             OpenApiExample(
                 "Example Schema",
                 {
+                    "cage_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "breed": "Azteca",
                     "genre": "Macho",
                     "birthday": "2023-10-31",
