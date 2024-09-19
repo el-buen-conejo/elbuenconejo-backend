@@ -15,6 +15,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
 import environ
 
 logging.basicConfig(level=logging.DEBUG)
@@ -45,16 +46,7 @@ print(" RED PILL:", DEBUG)
 SECRET_KEY = env("SECRET_KEY")
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
-    }
-}
+DATABASES = {"default": dj_database_url.config(default=env("DATABASE_URL"))}
 
 
 # Application definition
@@ -396,3 +388,5 @@ else:
         "x-csrftoken",
         "x-requested-with",
     ]
+    CSRF_TRUSTED_ORIGINS = ["https://elbuenconejo-backend-production.up.railway.app/"]
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
