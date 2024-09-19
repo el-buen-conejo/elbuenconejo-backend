@@ -4,7 +4,7 @@ from drf_spectacular.utils import OpenApiExample, extend_schema
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.farms.api.serializer import FarmPhotoSerializer, farmSerializer
@@ -36,6 +36,11 @@ class FarmViewset(viewsets.ModelViewSet):
         "created",
     )
     filterset_class = FarmFilterSet
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     @extend_schema(
         examples=[
