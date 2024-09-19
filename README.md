@@ -176,9 +176,10 @@ _For more examples, please refer to the [Documentation](https://service-streamin
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add CI/CD with Github Actions
-- [ ] Terminate swagger documentation
-- [ ] Add versioning control
+- [ X ] Add CI/CD with Github Actions
+- [   ] Terminate swagger documentation
+- [   ] Add versioning control
+- [ X ] Deploy in Railway
 
 
 See the [open issues](https://github.com/el-buen-conejo/elbuenconejo-backend/issues) for a full list of proposed features (and known issues).
