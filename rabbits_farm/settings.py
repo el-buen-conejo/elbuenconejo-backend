@@ -396,4 +396,4 @@ else:
         "x-csrftoken",
         "x-requested-with",
     ]
-    CSRF_TRUSTED_ORIGINS = ["elbuenconejo-backend-production.up.railway.app"]
+    CSRF_TRUSTED_ORIGINS = ["https://elbuenconejo-backend-production.up.railway.app/"]
