@@ -378,7 +378,7 @@ else:
     # ALLOWED_HOSTS.append(env("AWS_EXTERNAL_HOSTNAME"))
 
     # Configuration of django-cors-headers
-    ALLOWED_HOSTS = ["api-good-rabbit.website"]
+    ALLOWED_HOSTS = ["elbuenconejo-backend-production.up.railway.app"]
 
     CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOW_CREDENTIALS = True
