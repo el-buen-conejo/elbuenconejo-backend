@@ -10,17 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import logging
 import os
 from datetime import timedelta
 from pathlib import Path
 
 import environ
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
 
-from utils.cloudwatch_logger import configure_cloudwatch_logger
-
-# Llama a la función para configurar el logger de CloudWatch
-configure_cloudwatch_logger()
 
 # from utils.get_parameters_store.parameter_store import get_parameter
 
@@ -56,9 +55,6 @@ DATABASES = {
         "PORT": env("DB_PORT"),
     }
 }
-
-AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 
 
 # Application definition
@@ -108,6 +104,7 @@ THIRD_APPS = [
     "dj_rest_auth.registration",
     # "zappa_django_utils",
     "drf_standardized_errors",
+    "cloudinary",
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -182,8 +179,6 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_SCHEMA_CLASS": "drf_standardized_errors.openapi.AutoSchema",
     "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
 }
@@ -205,8 +200,8 @@ REST_AUTH = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "El Buen Conejo API",
-    "DESCRIPTION": "API para la plataforma del Buen Conejo",
-    "VERSION": "2.0.0",
+    "DESCRIPTION": "API para la plataforma del Buen Conejo, en esta versión las fotos de: los perfiles, las granjas, las jaulas y los conejos se almacenan en Cloudinary por lo que requieren tener una cuenta",
+    "VERSION": "3.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
     "COMPONENT_SPLIT_REQUEST": True,
     # "SCHEMA_PATH_PREFIX_INSERT": "/staging",
@@ -278,36 +273,100 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URLS = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-
-# Configuration of environment variables for setup static files in a S3 bucket
-
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_SIGNATURE_NAME = env("AWS_S3_SIGNATURE_NAME")
-AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        # "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-}
-
 # # Correo electrónico
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("SMTP_SERVER")
 EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_USE_SSL = True
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = env("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
+
+ADMINS = [({env("ADMIN1_NAME")}, {env("ADMIN1_EMAIL")})]
+
+CLOUDINARY = {
+    "cloud_name": env("CLOUDINARY_CLOUD_NAME"),
+    "api_key": env("CLOUDINARY_API_KEY"),
+    "api_secret": env("CLOUDINARY_API_SECRET"),
+}
+
+# Logging
+PROPAGATE = env("PROPAGATE")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "root": {
+        "level": "DEBUG",
+        # Adding the watchtower handler here causes all loggers in the project that
+        # have propagate=True (the default) to send messages to watchtower. If you
+        # wish to send only from specific loggers instead, remove "watchtower" here
+        # and configure individual loggers below.
+        "handlers": ["console"],
+    },
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "formatters": {
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}] {message}",
+            "style": "{",
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+        },
+        "django.server": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "django.server",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+        },
+        # "console": {
+        #     "class": "logging.StreamHandler",
+        # },
+    },
+    "loggers": {
+        # In the debug server (`manage.py runserver`), several Django system loggers cause
+        # deadlocks when using threading in the logging handler, and are not supported by
+        # watchtower. This limitation does not apply when running on production WSGI servers
+        # (gunicorn, uwsgi, etc.), so we recommend that you set `propagate=True` below in your
+        # production-specific Django settings file to receive Django system logs in CloudWatch.
+        # "django": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        #     "propagate": PROPAGATE,
+        # }
+        # Add any other logger-specific configuration here.
+        "django": {
+            "handlers": ["console", "mail_admins"],
+            "level": "INFO",
+            "propagate": PROPAGATE,
+        },
+        "django.server": {
+            "handlers": ["django.server"],
+            "level": "INFO",
+            "propagate": PROPAGATE,
+        },
+    },
+}
+
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True

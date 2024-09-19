@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from apps.profiles.models import Profile
 
 
@@ -9,6 +10,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
+    photo = serializers.ImageField()  # define the photo field how a image
+
     class Meta:
         model = Profile
         fields = ("photo",)

@@ -1,15 +1,16 @@
-from rest_framework import viewsets, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.response import Response
+from drf_spectacular.utils import OpenApiExample, extend_schema
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 
-from apps.cages.api.serializers import CageSerializer, CagePhotoSerializer
+from apps.cages.api.serializers import CagePhotoSerializer, CageSerializer
+from apps.cages.models import Cage
 from utils.filters import CageFilterSet
 from utils.pagination import CagePagination
-from apps.cages.models import Cage
-from rest_framework.parsers import MultiPartParser, FormParser
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from utils.permisssions import ListAndRetrievePermission
+from utils.upload import upload_image_to_cloudinary
 
 
 class CageViewSet(viewsets.ModelViewSet):
@@ -41,7 +42,12 @@ class CageViewSet(viewsets.ModelViewSet):
         "created",
     )
 
-    permission_classes = [ListAndRetrievePermission]
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     # Range of price filter
     @action(detail=False, methods=["get"])
@@ -171,15 +177,52 @@ class CageViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-    @extend_schema(request=CagePhotoSerializer, responses=CagePhotoSerializer)
+    @extend_schema(
+        request=CagePhotoSerializer,
+        responses=CagePhotoSerializer,
+        examples=[
+            OpenApiExample(
+                "Photo upload",
+                value={"photo": "image.jpeg"},
+                media_type="multipart/form-data",
+            )
+        ],
+    )
     @action(
         detail=True, methods=["patch"], parser_classes=[MultiPartParser, FormParser]
     )
     def change_photo(self, request, pk=None):
         cage = self.get_object()
+
+        # Verify if the user is the owner of the farm
+        if cage.farm_id.profile_id.user_id_id != request.user.id:
+            return Response(
+                {"detail": "No tiene permiso para modificar esta jaula."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = CagePhotoSerializer(instance=cage, data=request.data, partial=True)
         if serializer.is_valid():
+            photo_file = request.FILES.get("photo")
+
+            if not photo_file:
+                return Response(
+                    {"detail": "No se ha proporcionado una imagen válida."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Upload the image to Cloudinary
+
+            upload_url = upload_image_to_cloudinary(photo_file, target="fotos/granjas")
+            request.data["photo"] = upload_url
+
+            # Update the photo field in the serializer
+            serializer.validated_data["photo"] = upload_url
+
+            print("--" * 50)
+            print(f"Imagen: {upload_url}")
             serializer.save()
+
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
