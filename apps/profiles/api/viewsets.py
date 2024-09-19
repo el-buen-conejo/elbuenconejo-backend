@@ -68,11 +68,12 @@ class ProfileModelViewSet(ModelViewSet):
             upload_url = upload_image_to_cloudinary(photo_file, target="fotos/perfiles")
             request.data["photo"] = upload_url
 
-            # Save the image url uploaded to Cloudinary
-            self.perform_update(serializer)
+            # Update the photo field in the serializer
+            serializer.validated_data["photo"] = upload_url
 
             print("--" * 50)
             print(f"Imagen: {upload_url}")
+            serializer.save()
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:

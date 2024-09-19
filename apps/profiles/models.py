@@ -1,5 +1,3 @@
-import os
-
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
@@ -22,16 +20,6 @@ def file_validation(file):
     if isinstance(file, UploadedFile):
         if file.size > FILE_UPLOAD_MAX_MEMORY_SIZE:
             raise ValidationError("File shouldn't be larger than 10MB.")
-
-
-def get_upload_path(instance, filename):
-    """
-    This function is used to create a unique filename for each image uploaded to the server.
-    :param instance: The instance parameter is the model instance that the file is attached to.
-    :param filename: The filename parameter is the name of the file that was uploaded.
-    :return: The function returns a string containing the path where the file will be saved.
-    """
-    return os.path.join("fotos", "perfiles", str(instance.pk), filename)
 
 
 # Create your models here.

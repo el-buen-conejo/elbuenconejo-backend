@@ -1,14 +1,14 @@
-from rest_framework import viewsets, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.response import Response
+from drf_spectacular.utils import OpenApiExample, extend_schema
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
 
-from apps.cages.api.serializers import CageSerializer, CagePhotoSerializer
+from apps.cages.api.serializers import CagePhotoSerializer, CageSerializer
+from apps.cages.models import Cage
 from utils.filters import CageFilterSet
 from utils.pagination import CagePagination
-from apps.cages.models import Cage
-from rest_framework.parsers import MultiPartParser, FormParser
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from utils.permisssions import ListAndRetrievePermission
 
 
@@ -171,7 +171,17 @@ class CageViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-    @extend_schema(request=CagePhotoSerializer, responses=CagePhotoSerializer)
+    @extend_schema(
+        request=CagePhotoSerializer,
+        responses=CagePhotoSerializer,
+        examples=[
+            OpenApiExample(
+                "Photo upload",
+                value={"photo": "image.jpeg"},
+                media_type="multipart/form-data",
+            )
+        ],
+    )
     @action(
         detail=True, methods=["patch"], parser_classes=[MultiPartParser, FormParser]
     )

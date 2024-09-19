@@ -1,16 +1,17 @@
-from rest_framework import status, viewsets, filters
-from rest_framework.response import Response
-from apps.farms.api.serializer import farmSerializer, FarmPhotoSerializer
-from apps.farms.models import Farm
-from utils.pagination import FarmPagination
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
 from django.db.models import Q
-from drf_spectacular.utils import extend_schema,  OpenApiExample
-from utils.permisssions import ListAndRetrievePermission
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiExample, extend_schema
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from apps.farms.api.serializer import FarmPhotoSerializer, farmSerializer
+from apps.farms.models import Farm
 from utils.filters import FarmFilterSet
+from utils.pagination import FarmPagination
+from utils.upload import upload_image_to_cloudinary
 
 """
     The FarmViewset class is a generic viewset that allows any user to access and manipulate Farm
@@ -19,7 +20,9 @@ from utils.filters import FarmFilterSet
 
 
 class FarmViewset(viewsets.ModelViewSet):
-    queryset = Farm.objects.filter(is_active=True).order_by("-created",)
+    queryset = Farm.objects.filter(is_active=True).order_by(
+        "-created",
+    )
     serializer_class = farmSerializer
     pagination_class = FarmPagination
     filter_backends = [
@@ -27,18 +30,18 @@ class FarmViewset(viewsets.ModelViewSet):
         filters.OrderingFilter,
         filters.SearchFilter,
     ]
-    permission_classes = [ListAndRetrievePermission]
+    permission_classes = [IsAuthenticated]
     read_only_fields = (
         "id",
         "created",
     )
-    filterset_class = FarmFilterSet 
+    filterset_class = FarmFilterSet
 
     @extend_schema(
         examples=[
             OpenApiExample(
                 "Example Schema",
-                {   "profile_id": "60dda079-2c9c-4c18-b787-d1de9fd45189",
+                {
                     "name": "string",
                     "address": "string",
                     "description": "string",
@@ -55,7 +58,9 @@ class FarmViewset(viewsets.ModelViewSet):
         parameters, and the request body
         return: The function returns a Response object that contains the serialized data of the created object (json).
         """
-        serializer = self.get_serializer(data=request.data)
+        data = request.data.copy()
+        data["profile_id"] = request.user.id
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -70,7 +75,7 @@ class FarmViewset(viewsets.ModelViewSet):
         address = self.request.query_params.get("address")
         description = self.request.query_params.get("description")
 
-        filters = Q() 
+        filters = Q()
 
         if profile_id:
             filters &= Q(profile_id=profile_id)
@@ -86,6 +91,7 @@ class FarmViewset(viewsets.ModelViewSet):
         queryset = queryset.filter(filters)
 
         return queryset
+
     def retrieve(self, request, pk):
         """
         :param request: The `request` parameter is an object that represents the HTTP request made by
@@ -116,16 +122,53 @@ class FarmViewset(viewsets.ModelViewSet):
         return Response(
             {"message": "La granja no existe!"}, status=status.HTTP_404_NOT_FOUND
         )
-        
-    @extend_schema(request=FarmPhotoSerializer, responses=FarmPhotoSerializer)
+
+    @extend_schema(
+        request=FarmPhotoSerializer,
+        responses=FarmPhotoSerializer,
+        examples=[
+            OpenApiExample(
+                "Photo upload",
+                value={"photo": "image.jpeg"},
+                media_type="multipart/form-data",
+            )
+        ],
+    )
     @action(
         detail=True, methods=["patch"], parser_classes=[MultiPartParser, FormParser]
     )
     def change_photo(self, request, pk=None):
         farm = self.get_object()
+
+        # Verify if the user is the owner of the farm
+        if farm.profile_id.user_id_id != request.user.id:
+            return Response(
+                {"detail": "No tiene permiso para modificar esta granja."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = FarmPhotoSerializer(instance=farm, data=request.data, partial=True)
         if serializer.is_valid():
+            photo_file = request.FILES.get("photo")
+
+            if not photo_file:
+                return Response(
+                    {"detail": "No se ha proporcionado una imagen válida."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Upload the image to Cloudinary
+
+            upload_url = upload_image_to_cloudinary(photo_file, target="fotos/granjas")
+            request.data["photo"] = upload_url
+
+            # Update the photo field in the serializer
+            serializer.validated_data["photo"] = upload_url
+
+            print("--" * 50)
+            print(f"Imagen: {upload_url}")
             serializer.save()
+
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
