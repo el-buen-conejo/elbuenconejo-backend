@@ -200,7 +200,7 @@ REST_AUTH = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "El Buen Conejo API",
-    "DESCRIPTION": "API para la plataforma del Buen Conejo",
+    "DESCRIPTION": "API para la plataforma del Buen Conejo, en esta versión las fotos de: los perfiles, las granjas, las jaulas y los conejos se almacenan en Cloudinary por lo que requieren tener una cuenta",
     "VERSION": "3.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
     "COMPONENT_SPLIT_REQUEST": True,
