@@ -37,12 +37,12 @@
   <h3 align="center">API El Buen Conejo</h3>
 
   <p align="center">
-    A manager for playlist's streaming videos in local mode!
+    An API for the next plattform of Buen Conejo!
     <br />
     <a href="https://github.com/el-buen-conejo/elbuenconejo-backend"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://service-streaming.onrender.com/">View Demo</a>
+    <a href="https://elbuenconejo-backend-production.up.railway.app/api/schema/swagger-ui/">View Demo</a>
     ·
     <a href="https://github.com/el-buen-conejo/elbuenconejo-backend/issues">Report Bug</a>
     ·
@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/el-buen-conejo/elbuenconejo-backend/blob/82a8c694a418723faacf992c5dd76b6e328120f8/api_playlists.png)
+![Product Name Screen Shot](https://raw.githubusercontent.com/el-buen-conejo/elbuenconejo-backend/main/images/logo.png)
 
 It is a project to congregate rabbit farmers, trading rabbits, meat, and other derivate products, and finally share statistics with the community, industry, and government.
 
@@ -177,7 +177,7 @@ _For more examples, please refer to the [Documentation](https://service-streamin
 ## Roadmap
 
 - [ X ] Add CI/CD with Github Actions
-- [   ] Terminate swagger documentation
+- [ X ] Terminate swagger documentation
 - [   ] Add versioning control
 - [ X ] Deploy in Railway
 
@@ -207,7 +207,7 @@ Distributed under the GPL-3.0 License. See `LICENSE` for more information.
 
 Miguel Angel López Monroy - [@miguellopezmdev](https://twitter.com/miguellopezmdev) - miguel.lopezm.dev@gmail.com
 
-Project Link: [https://service-streaming.onrender.com/](https://service-streaming.onrender.com/)
+Project Link: [https://elbuenconejo-backend-production.up.railway.app/api/schema/swagger-ui/](https://elbuenconejo-backend-production.up.railway.app/api/schema/swagger-ui/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -246,7 +246,7 @@ My favorite resources used:
 [license-url]: https://github.com/el-buen-conejo/elbuenconejo-backend/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/miguellopezmdev
-[product-screenshot]: https://github.com/el-buen-conejo/elbuenconejo-backend/blob/82a8c694a418723faacf992c5dd76b6e328120f8/api_playlists.png
+[product-screenshot]: "https://raw.githubusercontent.com/el-buen-conejo/elbuenconejo-backend/main/images/logo.png"
 [Python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
 [Python-url]: https://www.python.org/
 [Django]: https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white
