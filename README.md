@@ -31,7 +31,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/el-buen-conejo/elbuenconejo-backend">
-    <img src="https://github.com/el-buen-conejo/elbuenconejo-backend/blob/961be498851fc7b1e9d940550e7eb54ea3b2130f/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/el-buen-conejo/elbuenconejo-backend/main/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">API El Buen Conejo</h3>
@@ -39,7 +39,7 @@
   <p align="center">
     An API for the next plattform of Buen Conejo!
     <br />
-    <a href="https://github.com/el-buen-conejo/elbuenconejo-backend"><strong>Explore the docs »</strong></a>
+    <a href="https://elbuenconejo-backend-production.up.railway.app/api/schema/redoc/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://elbuenconejo-backend-production.up.railway.app/api/schema/swagger-ui/">View Demo</a>
@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot](https://raw.githubusercontent.com/el-buen-conejo/elbuenconejo-backend/main/images/logo.png)
+![Product Name Screen Shot](https://raw.githubusercontent.com/el-buen-conejo/elbuenconejo-backend/main/images/api.png)
 
 It is a project to congregate rabbit farmers, trading rabbits, meat, and other derivate products, and finally share statistics with the community, industry, and government.
 
